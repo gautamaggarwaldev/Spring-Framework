@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="Lec_1/demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_1/demo/src/test/java"/>
+	<classpathentry kind="src" path="Lec_2/demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_2/demo/src/test/java"/>
+	<classpathentry kind="src" path="Lec_3/coredemo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_3/coredemo/src/test/java"/>
+	<classpathentry kind="src" path="Lec_4/demo_project/src/main/java"/>
+	<classpathentry kind="src" path="Lec_4/spring_core_demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_5/bean_initialization_demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_5/bean_scope_demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_5/circular_dependency_demo/src/main/java"/>
+	<classpathentry kind="src" path="Lec_6/bean_lifecycle_demo/src/main/java"/>
+	<classpathentry kind="lib" path="Lec_4/demo_project/target/demo_project-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="lib" path="Lec_6/bean_lifecycle_demo/target/bean_lifecycle_demo-1.0-SNAPSHOT.jar"/>
+	<classpathentry kind="output" path="Lec_1/demo/target/classes"/>
+</classpath>
