@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+<!--    <bean id="orderService" name="orderServiceBean"  class="in.ggklass.OrderService">-->
+<!--        <constructor-arg ref="paymentService" />-->
+<!--    </bean>-->
+
+<!--    This is for setter injection -->
+
+<!--    <bean id="orderService" name="orderServiceBean"  class="in.ggklass.OrderService">-->
+<!--        <property name="PaymentServiceBean" ref="paymentService"/>-->
+<!--    </bean>-->
+
+<!--    <bean id="paymentService" class="in.ggklass.payment.PaymentService">-->
+<!--        <constructor-arg index="0" value="UPI" />-->
+<!--        <constructor-arg index="1" value="3"/>-->
+<!--    </bean>-->
+<!--    <bean id="orderService2" class="in.ggklass.OrderService" />-->
+
+
+<!--    <bean id="upiPaymentService" class="in.ggklass.payment.UpiPaymentService"/>-->
+<!--    <bean id="cardPaymentService" class="in.ggklass.payment.CardPaymentService"/>-->
+
+<!--    <bean id="orderService" class="in.ggklass.OrderService">-->
+<!--        <constructor-arg ref="cardPaymentService" />-->
+<!--    </bean>-->
+
+<!--    <bean id="userService" class="in.ggklass.UserService" scope="prototype"/>-->
+
+<!--    <bean id="userService" class="in.ggklass.UserService">-->
+<!--        <constructor-arg name="usernames">-->
+<!--            <list>-->
+<!--                <value>Garima</value>-->
+<!--                <value>Gautam</value>-->
+<!--                <value>Jhon</value>-->
+<!--            </list>-->
+<!--        </constructor-arg>-->
+<!--    </bean>-->
+
+    <bean id="userService" class="in.ggklass.UserService" init-method="init" destroy-method="destroy" scope="prototype"/>
+
+</beans>
