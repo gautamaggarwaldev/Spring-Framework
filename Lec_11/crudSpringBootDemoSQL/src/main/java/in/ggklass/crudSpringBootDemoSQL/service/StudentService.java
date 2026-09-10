@@ -1,0 +1,58 @@
+package in.ggklass.crudSpringBootDemoSQL.service;
+
+import in.ggklass.crudSpringBootDemoSQL.entity.Student;
+import in.ggklass.crudSpringBootDemoSQL.repository.StudentRepository;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
+
+@Service
+public class StudentService {
+    private StudentRepository studentRepository;
+
+    public StudentService(StudentRepository studentRepository) {
+        this.studentRepository = studentRepository;
+    }
+
+    public Student createStudent(Student studentReq) {
+        Student studentRes = studentRepository.save(studentReq);
+        return studentRes;
+    }
+
+    public Student getStudent(Long id) {
+        Optional<Student> studentRes = studentRepository.findById(id);
+
+        if(studentRes.isPresent()) {
+            return studentRes.get();
+        }
+        return null;
+    }
+
+    public List<Student> getAllStudents() {
+        List<Student> studentList =  studentRepository.findAll();
+        return studentList;
+    }
+
+    public Student updateStudent(Long id, Student studentReq) {
+        Optional<Student> existingStudent = studentRepository.findById(id);
+        if(existingStudent.isEmpty()) {
+            return null;
+        }
+        Student studentToSave = existingStudent.get();
+        studentToSave.setName(studentReq.getName());
+        studentToSave.setEmail(studentReq.getEmail());
+        studentToSave.setRollNo(studentReq.getRollNo());
+        studentToSave.setSubject(studentReq.getSubject());
+        studentToSave.setAge(studentReq.getAge());
+
+        return studentRepository.save(studentToSave);
+    }
+
+    public Boolean deleteStudent(Long id) {
+        Boolean isStudent = studentRepository.existsById(id);
+        if(!isStudent) return false;
+        studentRepository.deleteById(id);
+        return true;
+    }
+}
