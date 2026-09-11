@@ -1,0 +1,23 @@
+package in.ggklass.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class HelloController {
+
+    @GetMapping("/")
+    public String showHomePage(Model model) {
+        model.addAttribute("message", "Hey!! How are you?");
+        return "home";
+    }
+
+    @PostMapping("/greet")
+    public String greetUser(@RequestParam("name") String name, Model model) {
+        model.addAttribute("message", "Hello " + name);
+        return "home";
+    }
+}
