@@ -1,0 +1,10 @@
+#spring:
+#  application:
+#    name: profileDemo
+#
+#
+#app:
+#  welcome:
+#    message: Hello, Welcome to My World!!
+#    code: 200
+#    users: Garima, Gautam, Jhon, Kevin
