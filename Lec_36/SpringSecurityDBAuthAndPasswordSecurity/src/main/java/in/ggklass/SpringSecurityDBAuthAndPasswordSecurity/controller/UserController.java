@@ -30,16 +30,4 @@ public class UserController {
         return ResponseEntity.ok(userRegisterResponseDto);
     }
 
-    @PostMapping("/login")
-    public ResponseEntity<Boolean> login(
-            @RequestBody UserRegisterRequestDto registerRequestDto) {
-        Boolean loggedIn = authService.login(registerRequestDto);
-
-        return ResponseEntity.ok(loggedIn);
-    }
-
-    @GetMapping("/token")
-    public CsrfToken getToken(CsrfToken csrfToken) {
-        return csrfToken;
-    }
 }
