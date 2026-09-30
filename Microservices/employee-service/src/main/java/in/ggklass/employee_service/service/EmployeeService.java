@@ -16,4 +16,6 @@ public interface EmployeeService {
 
     List<EmployeeDto> getAllEmployees();
 
+    EmployeeDto getEmployeeByEmpCodeAndEmpCompany(String empCode, String empCompany);
+
 }

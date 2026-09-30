@@ -1,11 +1,16 @@
 package in.ggklass.employee_service.controller;
 
+import in.ggklass.employee_service.exception.MissingParameterException;
 import in.ggklass.employee_service.model.dto.EmployeeDto;
 import in.ggklass.employee_service.service.EmployeeService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
+import java.util.MissingFormatArgumentException;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/employees")
@@ -40,6 +45,25 @@ public class EmployeeController {
     public ResponseEntity<List<EmployeeDto>> getAllEmployees() {
         List<EmployeeDto> employeeDtos = employeeService.getAllEmployees();
         return ResponseEntity.status(HttpStatus.OK).body(employeeDtos);
+    }
+
+    @GetMapping("/empCodeCompany")
+    public ResponseEntity<EmployeeDto> getEmployeeByEmpCodeAndEmpCompany(@RequestParam(required = false) String empCode,
+                                                                         @RequestParam(required = false) String empCompany) {
+        List<String> missingParams = new ArrayList<>();
+        if(empCode==null || empCode.trim().isEmpty()) {
+            missingParams.add("empCode");
+        }
+        if(empCompany==null || empCompany.trim().isEmpty()) {
+            missingParams.add("empCompany");
+        }
+        if(!missingParams.isEmpty()) {
+            String finalMessage = missingParams.stream().collect(Collectors.joining(","));
+            throw new MissingParameterException("Please provide: " + finalMessage);
+        }
+        EmployeeDto employeeRes = employeeService.getEmployeeByEmpCodeAndEmpCompany(empCode, empCompany);
+
+        return ResponseEntity.status(HttpStatus.OK).body(employeeRes);
     }
 
     @DeleteMapping("/{id}")
