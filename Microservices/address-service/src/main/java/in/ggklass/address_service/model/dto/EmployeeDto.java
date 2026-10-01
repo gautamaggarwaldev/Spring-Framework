@@ -1,25 +1,19 @@
-package in.ggklass.employee_service.model.dto;
+package in.ggklass.address_service.model.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class EmployeeDto {
 
-    private Long id;
     private String empName;
     private String empCode;
     private String empEmail;
     private double empSalary;
     private String empCompany;
-    private List<AddressDto> addressDto;
 }

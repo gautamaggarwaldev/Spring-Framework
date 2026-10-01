@@ -1,9 +1,11 @@
 package in.ggklass.address_service.service.ServiceImpl;
 
+import in.ggklass.address_service.client.EmployeeClient;
 import in.ggklass.address_service.exception.ResourceNotFoundException;
 import in.ggklass.address_service.model.dto.AddressDto;
 import in.ggklass.address_service.model.dto.AddressRequest;
 import in.ggklass.address_service.model.dto.AddressRequestDto;
+import in.ggklass.address_service.model.dto.EmployeeDto;
 import in.ggklass.address_service.model.entity.Address;
 import in.ggklass.address_service.repository.AddressRepository;
 import in.ggklass.address_service.service.AddressService;
@@ -21,15 +23,20 @@ public class AddressServiceImplementation implements AddressService {
 
     private AddressRepository addressRepository;
     private ModelMapper modelMapper;
+    private EmployeeClient employeeClient;
 
     public AddressServiceImplementation(AddressRepository addressRepository
-            , ModelMapper modelMapper) {
+            , ModelMapper modelMapper, EmployeeClient employeeClient) {
         this.addressRepository = addressRepository;
         this.modelMapper = modelMapper;
+        this.employeeClient = employeeClient;
     }
 
     @Override
     public List<AddressDto> saveAddress(AddressRequest addressRequest) {
+
+       employeeClient.getEmployee(addressRequest.getEmpId());
+
         List<Address> listToSave = saveOrUpdateAddressRequest(addressRequest);
         List<Address> savedAddress = addressRepository.saveAll(listToSave);
         return savedAddress.stream().map(address->modelMapper.map(address, AddressDto.class)).toList();
@@ -37,6 +44,9 @@ public class AddressServiceImplementation implements AddressService {
 
     @Override
     public List<AddressDto> updateAddress(AddressRequest addressRequest) {
+
+        employeeClient.getEmployee(addressRequest.getEmpId());
+
         List<Address> addressByEmpId = addressRepository.findAllByEmpId(addressRequest.getEmpId());
         if(addressByEmpId.isEmpty()){
             log.info("No address found for employee id {}", addressRequest.getEmpId());

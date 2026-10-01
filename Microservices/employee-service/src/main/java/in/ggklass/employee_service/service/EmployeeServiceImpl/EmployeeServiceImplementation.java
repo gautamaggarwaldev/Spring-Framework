@@ -1,27 +1,34 @@
 package in.ggklass.employee_service.service.EmployeeServiceImpl;
 
+import in.ggklass.employee_service.client.AddressClient;
 import in.ggklass.employee_service.exception.BadRequestException;
 import in.ggklass.employee_service.exception.ResourceNotFoundException;
+import in.ggklass.employee_service.model.dto.AddressDto;
 import in.ggklass.employee_service.model.dto.EmployeeDto;
 import in.ggklass.employee_service.model.entity.Employee;
 import in.ggklass.employee_service.repository.EmployeeRepository;
 import in.ggklass.employee_service.service.EmployeeService;
+import lombok.extern.log4j.Log4j2;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 public class EmployeeServiceImplementation implements EmployeeService {
 
     private EmployeeRepository employeeRepository;
     private ModelMapper modelMapper;
+    private AddressClient addressClient;
 
     public EmployeeServiceImplementation(EmployeeRepository employeeRepository,
-                                         ModelMapper modelMapper) {
+                                         ModelMapper modelMapper, AddressClient addressClient) {
         this.employeeRepository = employeeRepository;
         this.modelMapper = modelMapper;
+        this.addressClient = addressClient;
     }
 
     @Override
@@ -62,7 +69,16 @@ public class EmployeeServiceImplementation implements EmployeeService {
         Employee employee = employeeRepository.findById(id).orElseThrow(()->
                 new ResourceNotFoundException("Employee with this id : " + id + " is not found"));
 
-        return modelMapper.map(employee, EmployeeDto.class);
+        List<AddressDto> addresses = new ArrayList<>();
+        EmployeeDto employeeDto =  modelMapper.map(employee, EmployeeDto.class);
+
+        try {
+            addresses = addressClient.getAddressByEmpId(id);
+            employeeDto.setAddressDto(addresses);
+        } catch (Exception e) {
+            log.error("No addresses found for employee id: " + id);
+        }
+        return employeeDto;
     }
 
     @Override
@@ -74,7 +90,20 @@ public class EmployeeServiceImplementation implements EmployeeService {
             throw new ResourceNotFoundException("No employee is present");
         }
 
-        return employeeDtos;
+        List<EmployeeDto> response = new ArrayList<>();
+
+        for(EmployeeDto employee : employeeDtos) {
+            List<AddressDto> addresses = new ArrayList<>();
+
+            try {
+                addresses = addressClient.getAddressByEmpId(employee.getId());
+                employee.setAddressDto(addresses);
+            } catch (Exception e) {
+                log.error("No addresses found for employee id: " + employee.getId());
+            }
+            response.add(employee);
+        }
+        return response;
     }
 
     @Override
